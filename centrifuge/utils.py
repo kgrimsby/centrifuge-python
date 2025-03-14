@@ -39,6 +39,9 @@ async def _wait_for_future(
     # Create a task that completes after a timeout
     timeout_task = asyncio.ensure_future(asyncio.sleep(timeout))
 
+    if future_task.done():
+        return True
+
     # Wait for either the future to complete or the timeout
     done, pending = await asyncio.wait(
         {future_task, timeout_task},
